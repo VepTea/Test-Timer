@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test timer</title>
+</head>
+<body>
+    <header>
+        <h1>TEST TIMER</h1>
+    </header>
+    <div id="container">
+        <main>
+            <div id="type">
+                <div class="typelist">
+                    <h3>1 Type</h3>
+                    <input type="button" value="2sec" onclick="sec = 2; timerDisplay()">
+                </div>
+                <div class="typelist">
+                    <h3>2 Type</h3>
+                    <input type="button" value="5sec" onclick="sec = 5; timerDisplay()">
+                </div>
+                <div class="typelist">
+                    <h3>3 Type</h3>
+                    <input type="button" value="10sec" onclick="sec = 10; timerDisplay()">
+                </div>
+                <div class="typelist">
+                    <h3>4 Type</h3>
+                    <input type="button" value="15sec" onclick="sec = 15; timerDisplay()">
+                </div>
+            </div>
+        </main>
+       
+        <div id="start">
+            <input id="start-btn" type="button" value="Start" onclick="timerOnPause()">
+            <div id="sec-div"><h1><span id="sec-display"></span></h1><h3>sec</h3></div>
+        </div>
+    </div>
+
+    <script>
+        var sec = 0;
+        var secDisplay = document.querySelector('#sec-display')
+        var startBtn = document.querySelector('#start-btn')
+        var count // count를 전역변수로 설정함으로서 if문에 적은 'count = setInterval' 함수를 else 문에서도 'clearInterval(count)'로 접근및 제어가 가능해졌다.
+        var audio = new Audio('Hey Now.mp3');
+
+        function timerDisplay() {
+            secDisplay.innerText = sec;
+            startBtn.disabled = false;
+            startBtn.value = 'Start';
+            startBtn.style.backgroundColor = '#ff8b3d'
+            audio.pause();
+        }
+        // 변수, 함수 정의 끝 //
+
+
+        timerDisplay()
+
+        function timerOnPause() {
+            if (startBtn.value == "Start") {
+                    startBtn.value = 'Pause';
+                    startBtn.style.backgroundColor = '#9b5f37';
+                    count = setInterval(function () {
+                        if(sec <= 0) {
+                            clearInterval(count);
+                            startBtn.value = 'Done';
+                            startBtn.disabled = true;
+                            startBtn.style.backgroundColor = '#ccc';
+                            audio.play();
+                        }
+                        else {
+                        sec = sec - 1;
+                        secDisplay.innerText = sec;
+
+                        }
+
+                    }, 1000);
+                }
+            else {
+                startBtn.value = 'Start';
+                clearInterval(count);
+            }
+        }
+    </script>
+</body>
+
+</html>
